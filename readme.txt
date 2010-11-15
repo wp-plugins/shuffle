@@ -28,6 +28,12 @@ An answer to that question.
 
 == Screenshots ==
 
+1. In your Post library, rollover actions have added to conveniently point you to all of your item's attachments
+ 
+2. A simple Drag and Drop UI makes Re-ordering your attachments EASY (currently available for Images, Audio, and Video)
+
+3. You can now attach an attachment to ANYTHING, why not another attachment! Since all we are doing is setting post_parent, and attachments are Posts in the database, it is now easy to manage your associations. We also make sure you can't attach an attachment to itself :)
+
 == Changelog ==
 
 = 0.1 =
