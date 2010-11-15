@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: wonderboymusic (this should be a list of wordpress.org userid's)
+Contributors: wonderboymusic
 Tags: media, attachments
 Requires at least: 3.0
 Tested up to: 3.0
@@ -34,7 +34,6 @@ An answer to that question.
 * Initial release
 
 == Upgrade Notice ==
-
 
 == A brief Markdown Example ==
 
