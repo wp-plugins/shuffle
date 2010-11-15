@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: wonderboymusic
-Tags: media, attachments, admin, images, image, videos, video, audio
+Tags: media, attachments, admin, images, image, videos, video, audio, cms, gallery, jquery, manage, music, photo, photos, thumbnail, upload
 Requires at least: 3.0
 Tested up to: 3.0
 
