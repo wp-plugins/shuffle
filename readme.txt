@@ -19,12 +19,21 @@ All of these things should already be in WordPress... but they're not!
 
 This plugin is especially useful if you are using WordPress as a CMS and/or have a media-heavy site.
 
-== Frequently Asked Questions ==
+Use these functions in your Theme to get your re-ordered Media:
+`<?php 
+//In the Loop:
+get_images();
 
-= A question that someone might have =
+//Outside of the Loop:
+get_images(get_the_id());
 
-An answer to that question.
+// Audio
+get_audio();
 
+// Video
+get_video();
+
+?>`
 
 == Screenshots ==
 
@@ -41,27 +50,3 @@ An answer to that question.
 
 == Upgrade Notice ==
 
-== A brief Markdown Example ==
-
-Ordered list:
-
-1. Some feature
-1. Another feature
-1. Something else about the plugin
-
-Unordered list:
-
-* something
-* something else
-* third thing
-
-Here's a link to [WordPress](http://wordpress.org/ "Your favorite software") and one to [Markdown's Syntax Documentation][markdown syntax].
-Titles are optional, naturally.
-
-[markdown syntax]: http://daringfireball.net/projects/markdown/syntax
-            "Markdown is what the parser uses to process much of the readme file"
-
-Markdown uses email style notation for blockquotes and I've been told:
-> Asterisks for *emphasis*. Double it up  for **strong**.
-
-`<?php code(); // goes in backticks ?>`
