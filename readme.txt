@@ -20,7 +20,8 @@ All of these things should already be in WordPress... but they're not!
 This plugin is especially useful if you are using WordPress as a CMS and/or have a media-heavy site.
 
 Use these functions in your Theme to get your re-ordered Media:
-`<?php 
+<code>
+<?php 
 //In the Loop:
 get_images();
 
@@ -33,7 +34,8 @@ get_audio();
 // Video
 get_video();
 
-?>`
+?>
+</code>
 
 == Screenshots ==
 
