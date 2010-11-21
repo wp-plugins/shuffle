@@ -3,6 +3,7 @@ Contributors: wonderboymusic
 Tags: media, attachments, admin, images, image, videos, video, audio, cms, gallery, jquery, manage, music, photo, photos, thumbnail, upload
 Requires at least: 3.0
 Tested up to: 3.0
+Stable Tag: 0.2
 
 Shuffle modifies/improves your Media Library in a number of ways
 
@@ -47,8 +48,12 @@ get_video();
 
 == Changelog ==
 
+= 0.2 =
+* get_images() will now exclude the post's featured image / post thumbnail by default
+* all Theme function will now take query_posts() params as the only argument if desired, 'and_featured' => true will force the retirn of the post thumnbail in the result
+
 = 0.1 =
 * Initial release
 
 == Upgrade Notice ==
-
+* Please upgrade to the latest release of Shuffle, view the [Changelog](http://wordpress.org/extend/plugins/shuffle/changelog/ "Release Notes") for Release Notes
