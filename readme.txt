@@ -50,7 +50,7 @@ get_video();
 
 = 0.2 =
 * get_images() will now exclude the post's featured image / post thumbnail by default
-* all Theme function will now take query_posts() params as the only argument if desired, 'and_featured' => true will force the retirn of the post thumnbail in the result
+* all Theme functions will now take query_posts() params as the only argument if desired, 'and_featured' => true will force the return of the post thumnbail in the result
 
 = 0.1 =
 * Initial release
