@@ -76,8 +76,9 @@ function shuffle_by_mime_type($type = 'image', $params = 0, $and_featured = '') 
 				unset($params['post_mime_type']);
 			}		
 		
-			if (array_key_exists('id', $params)) {
-				$id = $params['id'];
+			if (array_key_exists('post_parent', $params)) {
+				$id = $params['post_parent'];
+				unset($params['post_parent']);
 			} else {	
 				$id = get_the_id();
 			}
