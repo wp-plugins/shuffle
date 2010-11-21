@@ -1,0 +1,5 @@
+#shuffle-wrap {padding: 20px 20px 20px 0}
+#shuffle-wrap li, #shuffle-wrap li a {cursor: move}
+
+#shuffle-images {overflow: hidden}
+#shuffle-images li {float: left; margin: 0 10px 10px 0;}
