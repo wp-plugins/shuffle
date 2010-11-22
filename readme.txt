@@ -38,6 +38,8 @@ get_video();
 ?>
 </code>
 
+Read more: http://scottctaylor.wordpress.com/2010/11/15/my-first-plugin-shuffle/
+
 == Screenshots ==
 
 1. In your Post library, rollover actions have added to conveniently point you to all of your item's attachments
