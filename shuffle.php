@@ -3,7 +3,7 @@
 Plugin Name: Shuffle
 Description: Re-Order your attachments
 Author: Scott Taylor
-Version: 0.2
+Version: 0.3
 Author URI: http://tsunamiorigami.com
 */
 
@@ -36,9 +36,9 @@ function shuffle_back_link() {
 	
 	if (isset($_GET['post_id']) && (int) $_GET['post_id'] > 0) {
 		$id = (int) $_GET['post_id'];
-		$parents =& get_post_ancestors($id);
+		$parents = get_post_ancestors($id);
 		
-		if (is_array($parents) && (int) $parents[0] > 0) {		
+		if (is_array($parents) && count($parents) && (int) $parents[0] > 0) {		
 			$back = shuffle_do_link($parents[0], sprintf(__('Back to &#8220;%s&#8221;'), get_the_title($parents[0])));
 		} else {
 			$type = get_post_type($id);
@@ -98,7 +98,7 @@ function shuffle_by_mime_type($type = 'image', $params = 0, $and_featured = '') 
 					}
 				}		
 		
-				$posts =& get_posts(array_merge($base_params, array(
+				$posts = get_posts(array_merge($base_params, array(
 					'post_parent'    => $id,
 					'post_mime_type' => $type
 				), $params));
@@ -114,7 +114,7 @@ function shuffle_by_mime_type($type = 'image', $params = 0, $and_featured = '') 
 				if (!$include_featured) {
 					$exclude_posts = array(shuffle_get_default_img_id($id));
 				}			
-				$posts =& get_posts(array_merge($base_params, array(
+				$posts = get_posts(array_merge($base_params, array(
 					'post_parent'    => $id,
 					'post_mime_type' => $type,
 					'post__not_in' => $exclude_posts
@@ -128,7 +128,7 @@ function shuffle_by_mime_type($type = 'image', $params = 0, $and_featured = '') 
 function shuffle_images_by_post() {
 	global $shuffle_post_id;
 	
-	$imgs =& shuffle_by_mime_type('image', $shuffle_post_id);	
+	$imgs = shuffle_by_mime_type('image', $shuffle_post_id);	
 	$size = count($imgs);	
 	
 	if ($size > 0): ?>
@@ -161,7 +161,7 @@ function shuffle_list_item(&$obj) {
 function shuffle_audio_by_post() {
 	global $shuffle_post_id;
 	
-	$audio =& shuffle_by_mime_type('audio', $shuffle_post_id);;	
+	$audio = shuffle_by_mime_type('audio', $shuffle_post_id);;	
 	$size = count($audio);
 	
 	if ($size > 0): ?>
@@ -179,7 +179,7 @@ function shuffle_audio_by_post() {
 function shuffle_video_by_post() {
 	global $shuffle_post_id;
 	
-	$video =& shuffle_by_mime_type('video', $shuffle_post_id);
+	$video = shuffle_by_mime_type('video', $shuffle_post_id);
 	$size = count($video);		
 	
 	if ($size > 0): ?>

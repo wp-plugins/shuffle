@@ -2,8 +2,8 @@
 Contributors: wonderboymusic
 Tags: media, attachments, admin, images, image, videos, video, audio, cms, gallery, jquery, manage, music, photo, photos, thumbnail, upload
 Requires at least: 3.0
-Tested up to: 3.0
-Stable Tag: 0.2
+Tested up to: 3.0.4
+Stable Tag: 0.3
 
 Shuffle modifies/improves your Media Library in a number of ways
 
@@ -49,6 +49,8 @@ Read more: http://scottctaylor.wordpress.com/2010/11/15/my-first-plugin-shuffle/
 3. You can now attach an attachment to ANYTHING, why not another attachment! Since all we are doing is setting post_parent, and attachments are Posts in the database, it is now easy to manage your associations. We also make sure you can't attach an attachment to itself :)
 
 == Changelog ==
+= 0.3 =
+* Removed <code>=&</code> wherever it was unnecessarily being used, important so no Notices / Errors will not be thrown when <code>error_reporting(-1)</code>
 
 = 0.2 =
 * get_images() will now exclude the post's featured image / post thumbnail by default
