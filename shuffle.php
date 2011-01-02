@@ -3,7 +3,7 @@
 Plugin Name: Shuffle
 Description: Re-Order your attachments
 Author: Scott Taylor
-Version: 0.1
+Version: 0.3
 Author URI: http://tsunamiorigami.com
 */
 
@@ -36,9 +36,9 @@ function shuffle_back_link() {
 	
 	if (isset($_GET['post_id']) && (int) $_GET['post_id'] > 0) {
 		$id = (int) $_GET['post_id'];
-		$parents =& get_post_ancestors($id);
+		$parents = get_post_ancestors($id);
 		
-		if (is_array($parents) && (int) $parents[0] > 0) {		
+		if (is_array($parents) && count($parents) && (int) $parents[0] > 0) {		
 			$back = shuffle_do_link($parents[0], sprintf(__('Back to &#8220;%s&#8221;'), get_the_title($parents[0])));
 		} else {
 			$type = get_post_type($id);
@@ -50,25 +50,85 @@ function shuffle_back_link() {
 	echo $back;
 }
 
-function shuffle_by_mime_type($type = 'image', $id = 0) {
+function shuffle_get_default_img_id($post_id) {
+	global $wpdb;
+	
+	$meta_key = '_thumbnail_id';
+	$query = "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = %s AND post_id = %d";
+	$featured_id = $wpdb->get_var($wpdb->prepare($query, $meta_key, $post_id));
+		
+	return $featured_id;	
+}
+
+function shuffle_by_mime_type($type = 'image', $params = 0, $and_featured = '') {
 	global $base_params;
 	
 	$posts = array();
+
+	if (!empty($type)) {
 	
-	if ((int) $id > 0) {
-		$posts =& get_posts(array_merge($base_params, array(
-			'post_parent'    => $id,
-			'post_mime_type' => $type
-		)));	
+		$id = 0;	
+		$exclude_posts = array();
+		$include_featured = (!empty($and_featured) && $and_featured);
+		 
+		if (is_array($params)) {	
+			if (array_key_exists('post_mime_type', $params)) {
+				unset($params['post_mime_type']);
+			}		
+		
+			if (array_key_exists('post_parent', $params)) {
+				$id = $params['post_parent'];
+				unset($params['post_parent']);
+			} else {	
+				$id = get_the_id();
+			}
+		
+			if ((int) $id > 0) {
+				if (strstr($type, 'image') && (
+						(array_key_exists('and_featured', $params) && !$params['and_featured']) ||
+						!$include_featured
+					)
+				) {
+					$featured = array(shuffle_get_default_img_id($id));
+					
+					if (array_key_exists('post__not_in', $params)) {
+						$save = $params['post__not_in'];
+						$params['post__not_in'] = array_merge($exclude_posts, $save, $featured);
+						unset($save, $featured);
+					}
+				}		
+		
+				$posts = get_posts(array_merge($base_params, array(
+					'post_parent'    => $id,
+					'post_mime_type' => $type
+				), $params));
+			}	
+		} else {
+			if ((int) $params > 0) {
+				$id = $params;
+			} else {
+				$id = get_the_id();
+			}
+		
+			if ((int) $id > 0 ) {
+				if (!$include_featured) {
+					$exclude_posts = array(shuffle_get_default_img_id($id));
+				}			
+				$posts = get_posts(array_merge($base_params, array(
+					'post_parent'    => $id,
+					'post_mime_type' => $type,
+					'post__not_in' => $exclude_posts
+				)));
+			}			
+		}
 	}
-	
 	return $posts;
 }
 
 function shuffle_images_by_post() {
 	global $shuffle_post_id;
 	
-	$imgs =& shuffle_by_mime_type('image', $shuffle_post_id);	
+	$imgs = shuffle_by_mime_type('image', $shuffle_post_id);	
 	$size = count($imgs);	
 	
 	if ($size > 0): ?>
@@ -101,7 +161,7 @@ function shuffle_list_item(&$obj) {
 function shuffle_audio_by_post() {
 	global $shuffle_post_id;
 	
-	$audio =& shuffle_by_mime_type('audio', $shuffle_post_id);;	
+	$audio = shuffle_by_mime_type('audio', $shuffle_post_id);;	
 	$size = count($audio);
 	
 	if ($size > 0): ?>
@@ -119,7 +179,7 @@ function shuffle_audio_by_post() {
 function shuffle_video_by_post() {
 	global $shuffle_post_id;
 	
-	$video =& shuffle_by_mime_type('video', $shuffle_post_id);
+	$video = shuffle_by_mime_type('video', $shuffle_post_id);
 	$size = count($video);		
 	
 	if ($size > 0): ?>
@@ -435,17 +495,26 @@ add_action('wp_ajax_shuffle_add_attachment_type', 'shuffle_add_attachment_type_c
  * THEME FUNCTIONS
  *
  *
+ * all of these function will also take an array() as the only argument (same params as query_posts)
+ *
+ * add 'and_featured' => true 
+ * to include the post's featured image / post thumbnail in the result, it is excluded by default
+ *
+ *
+ * if shuffle_by_mime_type() is called directly, you can pass true / false as the 3rd argument to 
+ * return the post's featured image / post thumbnail
+ *
  */ 	 
  	 
 function get_images($id = 0) {
-	return shuffle_by_mime_type('image', (int) $id > 0 ? $id : get_the_id());
+	return shuffle_by_mime_type('image', $id);
 }	
 
 function get_audio($id = 0) {
-	return shuffle_by_mime_type('audio', (int) $id > 0 ? $id : get_the_id());	
+	return shuffle_by_mime_type('audio', $id);	
 }
 
 function get_video($id = 0) {
-	return shuffle_by_mime_type('video', (int) $id > 0 ? $id : get_the_id());	
+	return shuffle_by_mime_type('video', $id);	
 } 
 ?>
