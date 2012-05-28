@@ -148,54 +148,54 @@ class Shuffle {
 	    return $columns;
 	}
     
-    function media_columns( $column_name, $id ) {
-        if ( 'shuffle_parent' === $column_name ) {            
-            $post = get_post( $id );
-            
-            if ( $post->post_parent > 0 ) {
-                $parent = get_post( $post->post_parent );
-                if ( $parent ) {
-                    $title =_draft_or_post_title( $post->post_parent );
-                }
+	function media_columns( $column_name, $id ) {
+	    if ( 'shuffle_parent' === $column_name ) {            
+	        $post = get_post( $id );
+        
+	        if ( $post->post_parent > 0 ) {
+	            $parent = get_post( $post->post_parent );
+	            if ( $parent ) {
+	                $title =_draft_or_post_title( $post->post_parent );
+	            }
 
-                if ( 'attachment' === $parent->post_type ) {
-                    $meta = wp_get_attachment_image_src( $parent->ID, array( 60, 60 ), true );
-                    if ( !empty( $meta ) )
-                        printf( '<img src="%s" width="%d" height="%d" class="shuffle-parent"/>', $meta[0], $meta[1], $meta[2] );  
-                }
-            ?>
-                <strong>
-                <?php if ( current_user_can( 'edit_post', $post->post_parent ) ) { ?>
-                    <a href="<?php echo get_edit_post_link( $post->post_parent ); ?>"><?php echo $title ?></a><?php
-                } else {
-                    echo $title;
-                } ?></strong><?php 
-                if ( 'attachment' !== $parent->post_type ) {
-                    echo ', ', get_the_time( __( 'Y/m/d' ), $parent->ID );
-                } else {
-                    echo '<br/>';
-                }
-                
-                if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $parent->ID ), $matches ) )
-                    echo esc_html( strtoupper( $matches[1] ) );
-                else
-                    echo strtoupper( str_replace( 'image/', '', $parent->post_mime_type ) );
-                
-                printf(
-                    '<br/><a href="%s">%s</a>', 
-                    admin_url( sprintf( 'admin.php?action=shuffle_detach&post_id=%d', $post->ID ) ),
-                    __( 'Detach', 'shuffle' ) 
-                ); 
-  
-            } else {
-                
-                _e( '(Unattached)' ); ?><br />
-                <a class="hide-if-no-js"
-                    onclick="findPosts.open( 'media[]','<?php echo $post->ID ?>' ); return false;"
-                    href="#the-list"><?php _e( 'Attach' ); ?></a><?php 
-            }
-        }
-    }
+	            if ( 'attachment' === $parent->post_type ) {
+	                $meta = wp_get_attachment_image_src( $parent->ID, array( 60, 60 ), true );
+	                if ( !empty( $meta ) )
+	                    printf( '<img src="%s" width="%d" height="%d" class="shuffle-parent"/>', $meta[0], $meta[1], $meta[2] );  
+	            }
+	        ?>
+	            <strong>
+	            <?php if ( current_user_can( 'edit_post', $post->post_parent ) ) { ?>
+	                <a href="<?php echo get_edit_post_link( $post->post_parent ); ?>"><?php echo $title ?></a><?php
+	            } else {
+	                echo $title;
+	            } ?></strong><?php 
+	            if ( 'attachment' !== $parent->post_type ) {
+	                echo ', ', get_the_time( __( 'Y/m/d' ), $parent->ID );
+	            } else {
+	                echo '<br/>';
+	            }
+            
+	            if ( preg_match( '/^.*?\.(\w+)$/', get_attached_file( $parent->ID ), $matches ) )
+	                echo esc_html( strtoupper( $matches[1] ) );
+	            else
+	                echo strtoupper( str_replace( 'image/', '', $parent->post_mime_type ) );
+            
+	            printf(
+	                '<br/><a href="%s">%s</a>', 
+	                admin_url( sprintf( 'admin.php?action=shuffle_detach&post_id=%d', $post->ID ) ),
+	                __( 'Detach', 'shuffle' ) 
+	            ); 
+
+	        } else {
+            
+	            _e( '(Unattached)' ); ?><br />
+	            <a class="hide-if-no-js"
+	                onclick="findPosts.open( 'media[]','<?php echo $post->ID ?>' ); return false;"
+	                href="#the-list"><?php _e( 'Attach' ); ?></a><?php 
+	        }
+	    }
+	}
 	
 	function item_link( $id, $label ) {
 		return sprintf( '<a href="upload.php?page=%s&post_id=%d">%s</a>', $this->slug, $id, $label );
@@ -212,14 +212,14 @@ class Shuffle {
 		} else if ( 'attachment' === $this->post->post_type ) {
 			$back = sprintf(
 				'<a href="%s">%s</a>', 
-                admin_url( 'upload.php' ),    
+		              admin_url( 'upload.php' ),    
 				__( 'Back to Media list', 'shuffle' ) 
 			);
-        } else {
+		} else {
 			$obj = get_post_type_object( get_post_type( $this->post_id ) );
 			$back = sprintf(
 				'<a href="%s">%s</a>', 
-                admin_url( sprintf( 'edit.php?post_type=%s', empty( $this->post ) ? 'post' : $this->post->post_type ) ),    
+		              admin_url( sprintf( 'edit.php?post_type=%s', empty( $this->post ) ? 'post' : $this->post->post_type ) ),    
 				sprintf( __( 'Back to %s list', 'shuffle' ), $obj->labels->singular_name )  
 			);
 		}
@@ -227,30 +227,29 @@ class Shuffle {
 		if ( !empty( $back ) )
 		 	printf( '<p>%s</p>', $back );
 	}	
-	
+
 	function parent_image() {
 		if ( empty( $this->post ) )
 			return;
-		
+
 		if ( strstr( get_post_mime_type( $this->post ), 'image' ) ): 
 			$thumb = wp_get_attachment_image( $this->post_id, 'medium', true ); 
-			
+
 			if ( !empty( $thumb ) )
-                echo $thumb;
+				echo $thumb;
 		endif;
 	}
 	
 	function children() {
-	 ?>
+		?>
 		<p><?php _e( "Drag your media to re-order. When you're done dragging, hit the blue button!", 'shuffle' ) ?></p>
-	<?php	
+		<?php	
 		$imgs = $this->images();
 		$auds = $this->audio();
 		$vids = $this->video();
-		
+
 		$this->child_count = $imgs + $auds + $vids;
 	}
-	
 
 	function list_item( &$obj, $title = '' ) {
 		return sprintf( 
