@@ -17,24 +17,24 @@ class Shuffle {
 	
 	function init() {
 		$this->slug = 'shuffle-media';
-		
+
 		add_action( 'admin_menu', 							array( $this, 'menu' ) );
 		add_filter( 'post_row_actions', 					array( $this, 'add_media_link' ),   10, 2 );
 		add_filter( 'page_row_actions', 					array( $this, 'add_media_link' ),   10, 2 );
 		add_filter( 'media_row_actions',                    array( $this, 'add_media_link' ),   10, 2 );
-        add_filter( 'manage_media_columns',                 array( $this, 'columns' ) );
-        add_action( 'manage_media_custom_column',           array( $this, 'media_columns' ),    10, 2 );
-        add_action( 'manage_upload_sortable_columns',       array( $this, 'sortable_columns' ) );
-        
+		add_filter( 'manage_media_columns',                 array( $this, 'columns' ) );
+		add_action( 'manage_media_custom_column',           array( $this, 'media_columns' ),    10, 2 );
+		add_action( 'manage_upload_sortable_columns',       array( $this, 'sortable_columns' ) );
+
 		add_action( 'admin_action_shuffle_detach', 			array( $this, 'detach' ) );
-		
+
 		add_action( 'wp_ajax_shuffle_add_attachment_type', 	array( $this, 'add_attachment_type_callback' ) ); 
 	}
 	
 	function menu() {
-        add_action( 'admin_print_styles', 	array( $this, 'styles' ) );
+		add_action( 'admin_print_styles', 	array( $this, 'styles' ) );
 		add_action( 'admin_print_scripts', 	array( $this, 'scripts' ) );
-        
+
 		$shuffle_hook = add_submenu_page(
 			'upload.php', 
 			__( 'Shuffle', 'shuffle' ), 
@@ -43,7 +43,7 @@ class Shuffle {
 			$this->slug, 
 			array( $this, 'page' )
 		);
-		
+
 		add_action( "load-$shuffle_hook", array( $this, 'load' ) );
 	}
 		
@@ -60,18 +60,18 @@ class Shuffle {
 			$this->post_id = (int) $_REQUEST['post_id'];
 			$this->post = get_post( $this->post_id );
 		}
-			
+
 		if ( 'POST' === $_SERVER['REQUEST_METHOD'] && !empty( $this->post_id ) ) {
 			$this->save_items( $_POST['image_data'] ); 
 			$this->save_items( $_POST['audio_data'] );
 			$this->save_items( $_POST['video_data'] );	
-			
+
 			$url = add_query_arg( 
-                'post_id', 
-                $this->post_id, 
-                add_query_arg( 'saved', 1, menu_page_url( $this->slug, false ) )
-            );
-			
+			    'post_id', 
+			    $this->post_id, 
+			    add_query_arg( 'saved', 1, menu_page_url( $this->slug, false ) )
+			);
+
 			wp_redirect( $url );	
 			exit();	
 		}
@@ -113,40 +113,40 @@ class Shuffle {
 	}
 	
 	function add_media_link( $actions, $post ) {
-        $parent = get_children( array( 'post_parent' => $post->ID, 'fields' => 'ID' ) );
+		$parent = get_children( array( 'post_parent' => $post->ID, 'fields' => 'ID' ) );
 
-        if ( !empty( $parent ) )
-            $actions['shuffle_media'] = $this->item_link( $post->ID, __( 'Shuffle Media', 'shuffle' ) );
-        
-        return $actions;
+		if ( !empty( $parent ) )
+		    $actions['shuffle_media'] = $this->item_link( $post->ID, __( 'Shuffle Media', 'shuffle' ) );
+
+		return $actions;
 	}
     
-    function columns( $columns ) {
-        $before = array();
-        $after = array();
-        
-        $is_before = true;
-        foreach ( $columns as $column => $value ) {
-            if ( 'parent' === $column ) {
-                $is_before = false;
-            } elseif ( $is_before ) {
-                $before[$column] = $value;
-            } else {
-                $after[$column] = $value;
-            }
-        }
-        
-        $new = array( 'shuffle_parent' => _x( 'Attached to', 'column name' ) );
-        
-        $columns = array_merge( $before, $new, $after );
-        
-        return $columns;
-    }
+	function columns( $columns ) {
+		$before = array();
+		$after = array();
+
+		$is_before = true;
+		foreach ( $columns as $column => $value ) {
+		    if ( 'parent' === $column ) {
+		        $is_before = false;
+		    } elseif ( $is_before ) {
+		        $before[$column] = $value;
+		    } else {
+		        $after[$column] = $value;
+		    }
+		}
+
+		$new = array( 'shuffle_parent' => _x( 'Attached to', 'column name' ) );
+
+		$columns = array_merge( $before, $new, $after );
+
+		return $columns;
+	}
     
-    function sortable_columns( $columns ) {
-        $columns['shuffle_parent'] = 'parent';
-        return $columns;
-    }
+	function sortable_columns( $columns ) {
+	    $columns['shuffle_parent'] = 'parent';
+	    return $columns;
+	}
     
     function media_columns( $column_name, $id ) {
         if ( 'shuffle_parent' === $column_name ) {            
