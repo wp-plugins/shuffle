@@ -401,13 +401,13 @@ class Shuffle {
 			</div>
 			<?php	
 			endif;			
-		
-		 	$this->back_link();
-            
-            if ( !empty( $this->post_id ) ) {
-                $this->parent_image();
-                $this->children();                
-            }
+
+			$this->back_link();
+
+			if ( !empty( $this->post_id ) ) {
+				$this->parent_image();
+				$this->children();                
+			}
 
             if ( !empty( $this->post_id ) ):	
                 if ( !empty( $this->child_count ) ): ?>	
