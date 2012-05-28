@@ -106,8 +106,8 @@ class Shuffle {
 		if ( !empty( $items ) )
 			foreach ( $items as $i ) {
 				$wpdb->update( $wpdb->posts, 
-					array( 'menu_order' => $i->order ),
-					array( 'ID' 		=> $i->id )
+					array( 'menu_order'	=> $i->order ),
+					array( 'ID'			=> $i->id )
 				);
 			}
 	}
@@ -291,8 +291,8 @@ class Shuffle {
 				$exclude_posts = (array) $params['post__not_in'];
 
 			if ( isset( $params['and_featured'] ) ) {
-			    $include_featured = $params['and_featured'];
-			    unset( $params['and_featured'] );
+				$include_featured = $params['and_featured'];
+				unset( $params['and_featured'] );
 			}
 		} else {
 			$params = array();
