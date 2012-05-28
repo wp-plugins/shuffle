@@ -18,15 +18,15 @@ class Shuffle {
 	function init() {
 		$this->slug = 'shuffle-media';
 
-		add_action( 'admin_menu',						array( $this, 'menu' ) );
-		add_filter( 'post_row_actions',					array( $this, 'add_media_link' ),   10, 2 );
-		add_filter( 'page_row_actions', 				array( $this, 'add_media_link' ),   10, 2 );
-		add_filter( 'media_row_actions',	 			array( $this, 'add_media_link' ),   10, 2 );
-		add_filter( 'manage_media_columns', 			array( $this, 'columns' ) );
-		add_action( 'manage_media_custom_column', 		array( $this, 'media_columns' ),    10, 2 );
-		add_action( 'manage_upload_sortable_columns',	array( $this, 'sortable_columns' ) );
+		add_action( 'admin_menu', array( $this, 'menu' ) );
+		add_filter( 'post_row_actions', array( $this, 'add_media_link' ), 10, 2 );
+		add_filter( 'page_row_actions', array( $this, 'add_media_link' ), 10, 2 );
+		add_filter( 'media_row_actions', array( $this, 'add_media_link' ), 10, 2 );
+		add_filter( 'manage_media_columns', array( $this, 'columns' ) );
+		add_action( 'manage_media_custom_column', array( $this, 'media_columns' ), 10, 2 );
+		add_action( 'manage_upload_sortable_columns', array( $this, 'sortable_columns' ) );
 
-		add_action( 'admin_action_shuffle_detach', 		array( $this, 'detach' ) );
+		add_action( 'admin_action_shuffle_detach', array( $this, 'detach' ) );
 
 		add_action( 'wp_ajax_shuffle_add_attachment_type', array( $this, 'add_attachment_type_callback' ) ); 
 	}
