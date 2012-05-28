@@ -18,17 +18,17 @@ class Shuffle {
 	function init() {
 		$this->slug = 'shuffle-media';
 
-		add_action( 'admin_menu', 							array( $this, 'menu' ) );
-		add_filter( 'post_row_actions', 					array( $this, 'add_media_link' ),   10, 2 );
-		add_filter( 'page_row_actions', 					array( $this, 'add_media_link' ),   10, 2 );
-		add_filter( 'media_row_actions',                    array( $this, 'add_media_link' ),   10, 2 );
-		add_filter( 'manage_media_columns',                 array( $this, 'columns' ) );
-		add_action( 'manage_media_custom_column',           array( $this, 'media_columns' ),    10, 2 );
-		add_action( 'manage_upload_sortable_columns',       array( $this, 'sortable_columns' ) );
+		add_action( 'admin_menu',						array( $this, 'menu' ) );
+		add_filter( 'post_row_actions',					array( $this, 'add_media_link' ),   10, 2 );
+		add_filter( 'page_row_actions', 				array( $this, 'add_media_link' ),   10, 2 );
+		add_filter( 'media_row_actions',	 			array( $this, 'add_media_link' ),   10, 2 );
+		add_filter( 'manage_media_columns', 			array( $this, 'columns' ) );
+		add_action( 'manage_media_custom_column', 		array( $this, 'media_columns' ),    10, 2 );
+		add_action( 'manage_upload_sortable_columns',	array( $this, 'sortable_columns' ) );
 
-		add_action( 'admin_action_shuffle_detach', 			array( $this, 'detach' ) );
+		add_action( 'admin_action_shuffle_detach', 		array( $this, 'detach' ) );
 
-		add_action( 'wp_ajax_shuffle_add_attachment_type', 	array( $this, 'add_attachment_type_callback' ) ); 
+		add_action( 'wp_ajax_shuffle_add_attachment_type', array( $this, 'add_attachment_type_callback' ) ); 
 	}
 	
 	function menu() {
@@ -212,14 +212,14 @@ class Shuffle {
 		} else if ( 'attachment' === $this->post->post_type ) {
 			$back = sprintf(
 				'<a href="%s">%s</a>', 
-		              admin_url( 'upload.php' ),    
+				admin_url( 'upload.php' ),    
 				__( 'Back to Media list', 'shuffle' ) 
 			);
 		} else {
 			$obj = get_post_type_object( get_post_type( $this->post_id ) );
 			$back = sprintf(
 				'<a href="%s">%s</a>', 
-		              admin_url( sprintf( 'edit.php?post_type=%s', empty( $this->post ) ? 'post' : $this->post->post_type ) ),    
+				admin_url( sprintf( 'edit.php?post_type=%s', empty( $this->post ) ? 'post' : $this->post->post_type ) ),    
 				sprintf( __( 'Back to %s list', 'shuffle' ), $obj->labels->singular_name )  
 			);
 		}
@@ -286,23 +286,23 @@ class Shuffle {
 		if ( is_array( $params ) ) {
 			if ( !empty( $params['post_mime_type'] ) )
 				unset( $params['post_mime_type'] );
-			
+
 			if ( !empty( $params['post__not_in'] ) ) 
 				$exclude_posts = (array) $params['post__not_in'];
-            
-            if ( isset( $params['and_featured'] ) ) {
-                $include_featured = $params['and_featured'];
-                unset( $params['and_featured'] );
-            }
+
+			if ( isset( $params['and_featured'] ) ) {
+			    $include_featured = $params['and_featured'];
+			    unset( $params['and_featured'] );
+			}
 		} else {
 			$params = array();
 		}
-		
+
 		if ( !$include_featured ) {
 			$featured_id = get_post_meta( $parent_id, '_thumbnail_id', true );
 			if ( !empty( $featured_id ) )
 				$exclude_posts[] = $featured_id;
-				
+
 			$params['post__not_in'] = $exclude_posts;	
 		}
 
@@ -317,8 +317,6 @@ class Shuffle {
 		);
 
 		$vars = wp_parse_args( $params, $args );
-
-        print_r( $vars );
         
 		return get_posts( $vars );
 	}
