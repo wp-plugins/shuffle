@@ -82,7 +82,7 @@
 			id   : 'find-posts-attachment',
 			value: 'attachment'
 		});
-		label = $('<label/>').attr({'for': 'find-posts-attachment'}).text('Attachment');	
+		label = $('<label/>').attr({'for': 'find-posts-attachment'}).text(' Attachment ');	
 		
 		$(this).append(input).append(label);	
 		
@@ -95,7 +95,7 @@
 			};
 
 			var selectedItem;
-			$("input[@name='itemSelect[]']:checked").each(function() { selectedItem = $(this).val() });
+			$("input[name='find-posts-what']:checked").each(function() { selectedItem = $(this).val() });
 			post['post_type'] = selectedItem;
 
 			$.ajax({
@@ -108,7 +108,7 @@
 		};
 	}
 	
-	$(document).ready(function() {
+	$(document).ready(function () {
 		images = $('#shuffle-images');
 		makeSortable(images);
 		audio = $('#shuffle-audio');
