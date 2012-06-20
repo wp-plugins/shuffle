@@ -89,6 +89,8 @@ class Shuffle {
 				array( 'ID' => (int) $_GET['post_id'] )	
 			);
 		}
+		
+		clean_post_cache( $_GET['post_id'] );
 
 		$sendback = preg_replace( '|[^a-z0-9-~+_.?#=&;,/:]|i', '', wp_get_referer() );
 		wp_redirect( $sendback );
