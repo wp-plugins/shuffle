@@ -3,7 +3,7 @@ Contributors: wonderboymusic
 Tags: media, attachments, admin, images, image, videos, video, audio, cms, gallery, jquery, manage, music, photo, photos, thumbnail, upload
 Requires at least: 3.0
 Tested up to: 3.4
-Stable Tag: 0.4
+Stable Tag: 0.4.1
 
 Shuffle modifies/improves your Media Library in a number of ways
 
